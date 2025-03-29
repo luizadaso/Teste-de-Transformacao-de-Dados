@@ -8,40 +8,31 @@ import org.apache.pdfbox.text.*;
 
 public class PDFParaCSV {
     public static void main(String[] args) {
-        // Caminho relativo para o arquivo PDF
         String caminhoPdf = "downloads/Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf";
         String caminhoCsv = "Rol_de_Procedimentos.csv";
         String caminhoZip = "Teste_Ana_Luiza.zip";
 
         try {
-            // Extrair texto do PDF
             PDDocument documento = Loader.loadPDF(new File(caminhoPdf));
-            PDFTextStripper pdfStripper = new PDFTextStripper();
-            String texto = pdfStripper.getText(documento);
+            PDFTextStripper stripper = new PDFTextStripper();
+            stripper.setSortByPosition(true); // Mantém a ordem dos textos
+            String texto = stripper.getText(documento);
             documento.close();
 
-            // Processar texto para extrair dados da tabela
-            List<String[]> dadosTabela = extrairDadosTabela(texto);
-
-            // Salvar dados em CSV
+            List<String[]> dadosTabela = processarTextoParaTabela(texto);
             salvarEmCSV(dadosTabela, caminhoCsv);
-
-            // Substituir abreviações
-            substituirAbreviacoes(caminhoCsv);
-
-            // Compactar CSV em ZIP
             compactarParaZip(caminhoCsv, caminhoZip);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static List<String[]> extrairDadosTabela(String texto) {
+    private static List<String[]> processarTextoParaTabela(String texto) {
         List<String[]> dadosTabela = new ArrayList<>();
         String[] linhas = texto.split("\n");
+        
         for (String linha : linhas) {
-            String[] colunas = linha.split("\\s+");
+            String[] colunas = linha.split(" {2,}"); // Divide por múltiplos espaços
             dadosTabela.add(colunas);
         }
         return dadosTabela;
@@ -54,18 +45,6 @@ public class PDFParaCSV {
                 escritor.newLine();
             }
         }
-    }
-
-    private static void substituirAbreviacoes(String caminhoCsv) throws IOException {
-        Path caminho = Paths.get(caminhoCsv);
-        List<String> linhas = Files.readAllLines(caminho);
-        List<String> linhasAtualizadas = new ArrayList<>();
-        for (String linha : linhas) {
-            linha = linha.replace("OD", "Descrição Completa OD");
-            linha = linha.replace("AMB", "Descrição Completa AMB");
-            linhasAtualizadas.add(linha);
-        }
-        Files.write(caminho, linhasAtualizadas);
     }
 
     private static void compactarParaZip(String caminhoCsv, String caminhoZip) throws IOException {
