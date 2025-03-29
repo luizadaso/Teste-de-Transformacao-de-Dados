@@ -24,24 +24,6 @@ Isso gerará dois arquivos na pasta do projeto:
 - Salvamento dos dados formatados em um arquivo **CSV**.
 - Compactação do arquivo CSV em um **ZIP**.
 
-## Estrutura do CSV
-O arquivo CSV gerado conterá as seguintes colunas:
-- **PROCEDIMENTO**
-- **RN (alteração)**
-- **VIGÊNCIA**
-- **OD**
-- **AMB**
-- **HCO**
-- **HSO**
-- **REF**
-- **PAC**
-- **DUT**
-- **SUBGRUPO**
-- **GRUPO**
-- **CAPÍTULO**
-
-Cada linha subsequente conterá os dados extraídos do PDF seguindo a formatação correta.
-
 ## Requisitos
 - Java 8 ou superior
 - Biblioteca Apache PDFBox
