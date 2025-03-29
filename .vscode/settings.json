@@ -1,12 +1,4 @@
 {
-    "dart.flutterSdkPath": "C:\\Users\\analu\\Flutter\\flutter",
-    "cmake.showOptionsMovedNotification": false,
-    "security.workspace.trust.untrustedFiles": "open",
-    "files.autoSave": "afterDelay",
-    "redhat.telemetry.enabled": true,
-    "git.enableSmartCommit": true,
-    "git.confirmSync": false,
-    "git.autofetch": true,
     "java.project.referencedLibraries": [
         "libs/pdfbox-app-3.0.4.jar"
     ]
